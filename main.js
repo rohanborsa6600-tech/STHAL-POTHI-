@@ -1,18 +1,18 @@
-// Particles.js इनिशियलायझेशन (नैसर्गिक पार्टिकल्स)
+// Particles.js इनिशियलायझेशन (सिनेमॅटिक – अधिक पार्टिकल्स)
 particlesJS('particles-js', {
     particles: {
-        number: { value: 50, density: { enable: true, value_area: 800 } },
-        color: { value: '#4a7c59' }, // हिरवी शेड
-        shape: { type: 'circle' },
-        opacity: { value: 0.5, random: true },
-        size: { value: 3, random: true },
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: ['#4a7c59', '#2c5530', '#1a3c1a'] }, // मल्टिपल हिरवी शेड्स
+        shape: { type: 'polygon', polygon: { nb_sides: 5 } }, // पानांसारखे शेप
+        opacity: { value: 0.6, random: true },
+        size: { value: 4, random: true },
         line_linked: { enable: false },
-        move: { enable: true, speed: 1, direction: 'bottom', random: true }
+        move: { enable: true, speed: 0.8, direction: 'bottom', random: true, out_mode: 'out' }
     },
     interactivity: {
         detect_on: 'canvas',
         events: { onhover: { enable: true, mode: 'repulse' } },
-        modes: { repulse: { distance: 100, duration: 0.4 } }
+        modes: { repulse: { distance: 120, duration: 0.4 } }
     },
     retina_detect: true
 });
@@ -26,100 +26,56 @@ document.querySelectorAll('.chapter-link').forEach(link => {
     });
 });
 
-// वचन लिंक्ससाठी (डायनॅमिक)
-function setupVachanLinks() {
-    document.querySelectorAll('.vachan-item').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const href = link.getAttribute('href');
-            window.location.href = href;
-        });
-    });
-}
+// प्रत्येक चॅप्टरसाठी वचने लोड करा
+async function loadVachanPreview(chapterNum) {
+    const preview = document.getElementById(`preview-${chapterNum}`);
+    if (!preview) return;
 
-// एक्सपँड/कोलॅप्स टॉगल
-function setupSutraToggle() {
-    const toggleBtn = document.getElementById('toggle-sutra');
-    const sutraContent = document.querySelector('.sutra-content');
-    if (!toggleBtn || !sutraContent) return;
-
-    toggleBtn.addEventListener('click', () => {
-        sutraContent.classList.toggle('collapsed');
-        toggleBtn.textContent = sutraContent.classList.contains('collapsed') ? '▶' : '▼';
-    });
-}
-
-// ऑटोमॅटिक सूत्रसूची तयार करा
-async function generateSutraIndex() {
-    const sutraList = document.getElementById('sutra-list');
-    if (!sutraList) return;
-
-    sutraList.innerHTML = 'लोड होत आहे...';
-
-    const chapters = Array.from({length: 14}, (_, i) => `chapters/chapter${i + 1}.html`);
-    const allVachans = new Map();
+    preview.innerHTML = 'लोड होत आहे...';
 
     try {
-        for (const chapterPath of chapters) {
-            try {
-                const response = await fetch(chapterPath);
-                if (!response.ok) continue;
-                const html = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const vachans = doc.querySelectorAll('.vachan');
-                const chapterNum = chapterPath.match(/chapter(\d+)\.html/)[1];
-                const chapterName = doc.querySelector('h1.title')?.textContent || `चॅप्टर ${chapterNum}`;
-
-                vachans.forEach((vachan, index) => {
-                    const text = vachan.textContent.trim();
-                    if (text) {
-                        // वचन नंबर काढा (regex ने "वचन १:" सारखे)
-                        const vachanNumMatch = text.match(/वचन (\d+):?\s*(.*)/);
-                        const vachanNum = vachanNumMatch ? vachanNumMatch[1] : (index + 1).toString(); // जर नसले तर index ने
-                        const cleanText = vachanNumMatch ? vachanNumMatch[2].trim() : text;
-                        const firstChar = cleanText.charAt(0);
-                        if (/[\u0900-\u097F]/.test(firstChar)) {
-                            if (!allVachans.has(firstChar)) {
-                                allVachans.set(firstChar, []);
-                            }
-                            allVachans.get(firstChar).push({ text: cleanText, num: vachanNum, chapterNum, chapterName });
-                        }
-                    }
-                });
-            } catch (err) {
-                console.warn(`Error loading ${chapterPath}:`, err);
-            }
+        const response = await fetch(`chapters/chapter${chapterNum}.html`);
+        if (!response.ok) {
+            preview.innerHTML = '<p>वचने सापडली नाहीत.</p>';
+            return;
         }
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const vachans = doc.querySelectorAll('.vachan');
 
-        const sortedLetters = Array.from(allVachans.keys()).sort((a, b) => a.localeCompare(b, 'mr'));
-        let html = '';
-
-        sortedLetters.forEach(letter => {
-            const group = allVachans.get(letter);
-            html += `<div class="letter-group"><h3>${letter}</h3><ul>`;
-            group.forEach(item => {
-                const linkText = `वचन ${item.num}: ${item.text.substring(0, 40)}...`;
-                html += `<li><a href="chapters/chapter${item.chapterNum}.html" class="vachan-item">${linkText} (${item.chapterName})</a></li>`;
-            });
-            html += `</ul></div>`;
+        let vachanHtml = '';
+        vachans.forEach((vachan, index) => {
+            const text = vachan.textContent.trim();
+            if (text) {
+                const vachanNumMatch = text.match(/वचन (\d+):?\s*(.*)/);
+                const num = vachanNumMatch ? vachanNumMatch[1] : (index + 1);
+                const cleanText = vachanNumMatch ? vachanNumMatch[2].trim() : text;
+                vachanHtml += `<div class="vachan-item">वचन ${num}: ${cleanText}</div>`;
+            }
         });
 
-        if (html === '') {
-            html = '<p>कोणतेही वचन सापडले नाही.</p>';
+        if (vachanHtml === '') {
+            preview.innerHTML = '<p>या चॅप्टरमध्ये वचने नाहीत.</p>';
+        } else {
+            preview.innerHTML = vachanHtml;
         }
-
-        sutraList.innerHTML = html;
-        setupVachanLinks(); // लिंक्स सेटअप
     } catch (err) {
-        sutraList.innerHTML = '<p>सूत्रसूची लोड करण्यात त्रुटी.</p>';
+        preview.innerHTML = '<p>त्रुटी: वचने लोड होऊ शकली नाहीत.</p>';
     }
 }
 
-// पेज लोड झाल्यावर (sutra.html वर कॉल होईल)
-if (document.getElementById('sutra-list')) {
-    document.addEventListener('DOMContentLoaded', () => {
-        generateSutraIndex();
-        setupSutraToggle();
+// एक्सपँड/कोलॅप्स सेटअप
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.expand-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const chapterNum = btn.dataset.chapter;
+            const preview = document.getElementById(`preview-${chapterNum}`);
+            preview.classList.toggle('expanded');
+            btn.textContent = preview.classList.contains('expanded') ? '▲ वचने लपवा' : '▼ वचने पहा';
+            if (preview.classList.contains('expanded') && preview.innerHTML.includes('लोड होत आहे')) {
+                loadVachanPreview(chapterNum);
+            }
+        });
     });
-}
+});
