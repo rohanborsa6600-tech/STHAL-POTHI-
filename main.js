@@ -60,53 +60,40 @@ document.addEventListener('touchend', (e) => {
     }
 }, false);
 
-// सेटिंग्स हँडलर (localStorage ने सेव्ह – इंडेक्स आणि चॅप्टर्स दोन्ही पेजवर लागू)
+// डायरेक्ट टॉगल बटण्स (इंडेक्सवर)
 function applySettings() {
     const savedSize = localStorage.getItem('fontSize') || 'medium';
-    const savedColor = localStorage.getItem('fontColor') || 'dark';
     const savedTheme = localStorage.getItem('theme') || 'day';
 
-    document.body.className = `font-size-${savedSize} font-color-${savedColor} ${savedTheme === 'night' ? 'night' : ''}`;
-    if (document.getElementById('font-size-select')) document.getElementById('font-size-select').value = savedSize;
-    if (document.getElementById('font-color-select')) document.getElementById('font-color-select').value = savedColor;
-    if (document.getElementById('theme-toggle')) document.getElementById('theme-toggle').textContent = savedTheme === 'night' ? '☀️ डे' : '🌙 नाइट';
+    document.body.className = `font-size-${savedSize} ${savedTheme === 'night' ? 'night' : ''}`;
+    document.querySelector(`#font-${savedSize}`).classList.add('active');
+    document.getElementById('theme-toggle').textContent = savedTheme === 'night' ? '☀️ डे' : '🌙 नाइट';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     applySettings();
 
-    // सेटिंग्स टॉगल (फक्त जेथे पॅनल असेल – इंडेक्समध्ये)
-    const settingsToggle = document.getElementById('settings-toggle');
-    if (settingsToggle) {
-        const settingsContent = document.getElementById('settings-content');
-        const settingsClose = document.getElementById('settings-close');
-        const fontSizeSelect = document.getElementById('font-size-select');
-        const fontColorSelect = document.getElementById('font-color-select');
-        const themeToggle = document.getElementById('theme-toggle');
+    // फॉन्ट साइज टॉगल
+    ['small', 'medium', 'large'].forEach(size => {
+        const btn = document.getElementById(`font-${size}`);
+        if (btn) {
+            btn.addEventListener('click', () => {
+                document.body.className = document.body.className.replace(/font-size-\w+/, `font-size-${size}`);
+                localStorage.setItem('fontSize', size);
+                document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        }
+    });
 
-        settingsToggle.addEventListener('click', () => {
-            settingsContent.style.display = settingsContent.style.display === 'block' ? 'none' : 'block';
-        });
-
-        settingsClose.addEventListener('click', () => {
-            localStorage.setItem('fontSize', fontSizeSelect.value);
-            localStorage.setItem('fontColor', fontColorSelect.value);
-            localStorage.setItem('theme', document.body.classList.contains('night') ? 'night' : 'day');
-            applySettings();
-            settingsContent.style.display = 'none';
-        });
-
-        fontSizeSelect.addEventListener('change', () => {
-            document.body.className = document.body.className.replace(/font-size-\w+/, `font-size-${fontSizeSelect.value}`);
-        });
-
-        fontColorSelect.addEventListener('change', () => {
-            document.body.className = document.body.className.replace(/font-color-\w+/, `font-color-${fontColorSelect.value}`);
-        });
-
+    // डे/नाइट टॉगल
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('night');
-            themeToggle.textContent = document.body.classList.contains('night') ? '☀️ डे' : '🌙 नाइट';
+            const isNight = document.body.classList.contains('night');
+            themeToggle.textContent = isNight ? '☀️ डे' : '🌙 नाइट';
+            localStorage.setItem('theme', isNight ? 'night' : 'day');
         });
     }
 });
