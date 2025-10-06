@@ -6,38 +6,37 @@
     <title>स्थळ पोथी - मुख्य पृष्ठ</title>
     <link rel="stylesheet" href="style.css">
     <script src="particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script> <!-- GSAP CDN -->
 </head>
 <body>
     <div id="particles-js"></div>
+    <div class="cinematic-bg"></div> <!-- Motion Blurred Gradient -->
     <div class="container">
         <header>
-            <h1 class="title">स्थळ पोथी 🌿</h1>
+            <h1 class="title cinematic-fade">स्थळ पोथी 🌿</h1>
             <p class="subtitle">नैसर्गिक स्थळांच्या कथा आणि शिकवण</p>
         </header>
 
-        <!-- डायरेक्ट टॉगल बटण्स (मजेदार – vibrant) -->
-        <div class="toggle-panel">
-            <button id="font-small" class="toggle-btn">Aₐ</button>
-            <button id="font-medium" class="toggle-btn active">Aₐₐ</button>
-            <button id="font-large" class="toggle-btn">Aₐₐₐ</button>
-            <button id="theme-toggle" class="toggle-btn">🌙</button>
+        <!-- Glowing "कथा उघडा" Button -->
+        <div class="story-open-btn">
+            <button class="glowing-btn" onclick="scrollToChapters()">कथा उघडा ✨</button>
         </div>
 
-        <nav class="chapter-list">
-            <a href="chapters/chapter1.html" class="chapter-link">चॅप्टर १: पुर्वी</a>
-            <a href="chapters/chapter2.html" class="chapter-link">चॅप्टर २: अन्यव्यवृती</a>
-            <a href="chapters/chapter3.html" class="chapter-link">चॅप्टर ३: युगधर्म</a>
-            <a href="chapters/chapter4.html" class="chapter-link">चॅप्टर ४: क्रियापाक</a>
-            <a href="chapters/chapter5.html" class="chapter-link">चॅप्टर ५: विद्यामार्ग</a>
-            <a href="chapters/chapter6.html" class="chapter-link">चॅप्टर ६: संहार</a>
-            <a href="chapters/chapter7.html" class="chapter-link">चॅप्टर ७: संसरण</a>
-            <a href="chapters/chapter8.html" class="chapter-link">चॅप्टर ८: उद्धरण</a>
-            <a href="chapters/chapter9.html" class="chapter-link">चॅप्टर ९: महावाक्य</a>
-            <a href="chapters/chapter10.html" class="chapter-link">चॅप्टर १०: निर्वचन</a>
-            <a href="chapters/chapter11.html" class="chapter-link">चॅप्टर ११: आचार</a>
-            <a href="chapters/chapter12.html" class="chapter-link">चॅप्टर १२: विचार</a>
-            <a href="chapters/chapter13.html" class="chapter-link">चॅप्टर १३: आचार मालिका</a>
-            <a href="chapters/chapter14.html" class="chapter-link">चॅप्टर १४: विचार मालिका</a>
+        <nav class="chapter-list" id="chapters-section">
+            <a href="chapters/chapter1.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर १: पुर्वी</a>
+            <a href="chapters/chapter2.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर २: अन्यव्यवृती</a>
+            <a href="chapters/chapter3.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ३: युगधर्म</a>
+            <a href="chapters/chapter4.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ४: क्रियापाक</a>
+            <a href="chapters/chapter5.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ५: विद्यामार्ग</a>
+            <a href="chapters/chapter6.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ६: संहार</a>
+            <a href="chapters/chapter7.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ७: संसरण</a>
+            <a href="chapters/chapter8.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ८: उद्धरण</a>
+            <a href="chapters/chapter9.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ९: महावाक्य</a>
+            <a href="chapters/chapter10.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर १०: निर्वचन</a>
+            <a href="chapters/chapter11.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ११: आचार</a>
+            <a href="chapters/chapter12.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर १२: विचार</a>
+            <a href="chapters/chapter13.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर १३: आचार मालिका</a>
+            <a href="chapters/chapter14.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर १४: विचार मालिका</a>
         </nav>
     </div>
     <script src="main.js"></script>
