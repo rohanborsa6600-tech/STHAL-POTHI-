@@ -4,8 +4,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Noto Sans Devanagari', sans-serif;
-    background: linear-gradient(to bottom, #e8f5e8, #d4e4d4); /* नैसर्गिक हिरवी शेड */
-    color: #2c5530;
+    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5530); /* सिनेमॅटिक डार्क हिरवा ग्रॅडिएंट */
+    color: #e8f5e8;
     overflow-x: hidden;
 }
 
@@ -16,64 +16,135 @@ body {
     width: 100%;
     height: 100%;
     z-index: -1;
+    opacity: 0.6; /* पार्टिकल्स सॉफ्ट */
 }
 
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
     text-align: center;
 }
 
 .title {
-    font-size: 3em;
+    font-size: 3.5em;
     margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1); /* सॉफ्ट शॅडो */
-    color: #1a3c1a;
+    text-shadow: 0 0 20px rgba(74, 124, 89, 0.8); /* सिनेमॅटिक ग्लो शॅडो */
+    color: #e8f5e8;
+    animation: fadeInDown 1s ease-out;
 }
 
 .subtitle {
-    font-size: 1.2em;
-    margin-bottom: 40px;
-    color: #4a7c59;
+    font-size: 1.3em;
+    margin-bottom: 50px;
+    color: #d4e4d4;
+    animation: fadeInUp 1s ease-out 0.5s both;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .chapter-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
     margin-bottom: 40px;
 }
 
-.sutra-nav {
-    margin-bottom: 20px;
+.chapter-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* सिनेमॅटिक शॅडो */
+    backdrop-filter: blur(10px); /* ग्लास इफेक्ट */
+    border: 1px solid rgba(74, 124, 89, 0.2);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    animation: slideInUp 0.8s ease-out;
+}
+
+.chapter-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(74, 124, 89, 0.4);
+}
+
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .chapter-link {
     display: block;
-    padding: 15px 20px;
-    background: rgba(255, 255, 255, 0.7);
+    padding: 20px 25px;
+    background: rgba(255, 255, 255, 0.05);
     text-decoration: none;
-    color: #2c5530;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-left: 5px solid #4a7c59;
+    color: #e8f5e8;
+    border-radius: 10px 10px 0 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    border-bottom: 1px solid rgba(74, 124, 89, 0.2);
 }
 
 .chapter-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(74, 124, 89, 0.2);
 }
 
-.sutra-link {
-    background: rgba(74, 124, 89, 0.8);
-    font-weight: bold;
-    border-left: 5px solid #1a3c1a;
+.expand-btn {
+    background: rgba(74, 124, 89, 0.3);
+    color: #e8f5e8;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1em;
+    transition: background 0.3s ease;
+    border-radius: 0 0 10px 10px;
 }
 
-/* चॅप्टर स्ट्रक्चरसाठी स्टाइल्स */
+.expand-btn:hover {
+    background: rgba(74, 124, 89, 0.5);
+}
+
+.vachan-preview {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0 20px;
+    border-radius: 0 0 10px 10px;
+    opacity: 0;
+}
+
+.vachan-preview.expanded {
+    max-height: 300px; /* अॅडजस्ट करा */
+    padding: 15px 20px;
+    opacity: 1;
+}
+
+.vachan-item {
+    display: block;
+    padding: 8px;
+    margin: 5px 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    color: #d4e4d4;
+    font-style: italic;
+    transition: background 0.3s ease;
+    border-left: 3px solid #4a7c59;
+}
+
+.vachan-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* चॅप्टर स्ट्रक्चरसाठी स्टाइल्स (मागीलप्रमाणे) */
 .chapter-content {
     max-width: 700px;
     margin: 20px auto;
@@ -95,17 +166,17 @@ body {
 
 .lapika {
     font-style: italic;
-    color: #2c5530; /* गडद हिरवा कलर */
+    color: #2c5530;
     margin: 10px 0;
-    font-size: 1.2em; /* मोठी फॉन्ट साइज */
+    font-size: 1.2em;
     padding-left: 15px;
 }
 
 .tika {
-    color: #1a3c1a; /* गडद तिरंगी कलर */
+    color: #1a3c1a;
     margin: 15px 0;
     text-align: justify;
-    font-size: 1.1em; /* मोठी फॉन्ट साइज */
+    font-size: 1.1em;
 }
 
 /* बॅक बटण */
@@ -124,90 +195,9 @@ body {
     background: rgba(74, 124, 89, 0.4);
 }
 
-/* सूत्रसूची स्टाइल्स */
-.sutra-section {
-    text-align: left;
-    background: rgba(255, 255, 255, 0.6);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    margin-top: 20px;
-}
-
-.sutra-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.sutra-title {
-    text-align: left;
-    color: #1a3c1a;
-    font-size: 2em;
-    margin: 0;
-    flex: 1;
-}
-
-.toggle-btn {
-    background: #4a7c59;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.2em;
-    transition: background 0.3s ease;
-}
-
-.toggle-btn:hover {
-    background: #2c5530;
-}
-
-.sutra-content {
-    max-height: 1000px; /* डिफॉल्ट ओपन */
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-}
-
-.sutra-content.collapsed {
-    max-height: 0;
-}
-
-.letter-group {
-    margin-bottom: 20px;
-}
-
-.letter-group h3 {
-    color: #4a7c59;
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    border-bottom: 2px solid #4a7c59;
-    padding-bottom: 5px;
-}
-
-.vachan-item {
-    display: block;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.8);
-    margin: 5px 0;
-    border-radius: 5px;
-    text-decoration: none;
-    color: #2c5530;
-    transition: background 0.3s ease, transform 0.3s ease;
-    border-left: 3px solid #d4e4d4;
-}
-
-.vachan-item:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: translateX(5px);
-}
-
 /* मोबाइलसाठी */
 @media (max-width: 600px) {
-    .title { font-size: 2em; }
+    .title { font-size: 2.5em; }
     .container { padding: 10px; }
-    .sutra-section { padding: 10px; }
-    .sutra-header { flex-direction: column; align-items: flex-start; }
-    .toggle-btn { margin-top: 10px; align-self: flex-end; }
+    .chapter-card { animation-delay: 0.1s; }
 }
