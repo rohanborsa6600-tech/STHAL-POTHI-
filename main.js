@@ -31,12 +31,12 @@ async function loadVachanPreview(chapterNum) {
     const preview = document.getElementById(`preview-${chapterNum}`);
     if (!preview) return;
 
-    preview.innerHTML = 'लोड होत आहे...';
+    preview.innerHTML = '<p style="color: #d4e4d4;">लोड होत आहे...</p>';
 
     try {
         const response = await fetch(`chapters/chapter${chapterNum}.html`);
         if (!response.ok) {
-            preview.innerHTML = '<p>वचने सापडली नाहीत.</p>';
+            preview.innerHTML = '<p style="color: #d4e4d4;">वचने सापडली नाहीत.</p>';
             return;
         }
         const html = await response.text();
@@ -56,12 +56,15 @@ async function loadVachanPreview(chapterNum) {
         });
 
         if (vachanHtml === '') {
-            preview.innerHTML = '<p>या चॅप्टरमध्ये वचने नाहीत.</p>';
+            preview.innerHTML = '<p style="color: #d4e4d4;">या चॅप्टरमध्ये वचने नाहीत.</p>';
         } else {
-            preview.innerHTML = vachanHtml;
+            // फिक्स: setTimeout ने force show (transition पूर्ण होण्यासाठी)
+            setTimeout(() => {
+                preview.innerHTML = vachanHtml;
+            }, 100);
         }
     } catch (err) {
-        preview.innerHTML = '<p>त्रुटी: वचने लोड होऊ शकली नाहीत.</p>';
+        preview.innerHTML = '<p style="color: #d4e4d4;">त्रुटी: वचने लोड होऊ शकली नाहीत.</p>';
     }
 }
 
