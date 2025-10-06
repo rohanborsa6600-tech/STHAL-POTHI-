@@ -42,6 +42,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-bottom: 40px;
 }
 
 .chapter-link {
@@ -84,17 +85,17 @@ body {
 
 .lapika {
     font-style: italic;
-    color: #4a7c59;
+    color: #2c5530; /* गडद हिरवा कलर */
     margin: 10px 0;
-    font-size: 1.1em;
+    font-size: 1.2em; /* मोठी फॉन्ट साइज */
     padding-left: 15px;
 }
 
 .tika {
-    color: #2c5530;
+    color: #1a3c1a; /* गडद तिरंगी कलर */
     margin: 15px 0;
     text-align: justify;
-    font-size: 1em;
+    font-size: 1.1em; /* मोठी फॉन्ट साइज */
 }
 
 /* बॅक बटण */
@@ -113,8 +114,55 @@ body {
     background: rgba(74, 124, 89, 0.4);
 }
 
+/* सूत्रसूची स्टाइल्स */
+.sutra-section {
+    margin-top: 50px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.sutra-title {
+    text-align: center;
+    color: #1a3c1a;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.letter-group {
+    margin-bottom: 20px;
+}
+
+.letter-group h3 {
+    color: #4a7c59;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #4a7c59;
+    padding-bottom: 5px;
+}
+
+.vachan-item {
+    display: block;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.8);
+    margin: 5px 0;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #2c5530;
+    transition: background 0.3s ease;
+    border-left: 3px solid #d4e4d4;
+}
+
+.vachan-item:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateX(5px);
+}
+
 /* मोबाइलसाठी */
 @media (max-width: 600px) {
     .title { font-size: 2em; }
     .container { padding: 10px; }
+    .sutra-section { padding: 10px; }
 }
