@@ -1,13 +1,13 @@
-// Particles.js इनिशियलायझेशन (Vibrant – अधिक कण)
+// Particles.js इनिशियलायझेशन (Forest Dust – Green-Golden Tone)
 particlesJS('particles-js', {
     particles: {
-        number: { value: 50, density: { enable: true, value_area: 800 } },
-        color: { value: ['#4a7c59', '#6b8e23', '#2c5530'] }, // Vibrant मल्टिपल कलर्स
+        number: { value: 60, density: { enable: true, value_area: 800 } },
+        color: { value: ['#4a7c59', '#b6d7a8', '#e9f7ef'] }, // Green-Golden Tone
         shape: { type: 'circle' },
-        opacity: { value: 0.5, random: true },
+        opacity: { value: 0.6, random: true },
         size: { value: 3, random: true },
         line_linked: { enable: false },
-        move: { enable: true, speed: 1, direction: 'bottom', random: true }
+        move: { enable: true, speed: 0.8, direction: 'bottom', random: true, out_mode: 'out' }
     },
     interactivity: {
         detect_on: 'canvas',
@@ -22,11 +22,38 @@ document.querySelectorAll('.chapter-link').forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
         const href = link.getAttribute('href');
-        window.location.href = href;
+        gsap.to(link, { scale: 0.95, duration: 0.2, yoyo: true, repeat: 1 }); // Quick bounce
+        setTimeout(() => { window.location.href = href; }, 200);
     });
 });
 
-// डबल टॅप/क्लिक बॅक (चॅप्टर्ससाठी)
+// Cinematic Fade for Title & Subtitle (GSAP)
+gsap.from('.title', { duration: 1.5, y: -50, opacity: 0, ease: "power2.out" });
+gsap.from('.subtitle', { duration: 1.5, y: 50, opacity: 0, ease: "power2.out", delay: 0.5 });
+
+// Chapter List Reveal on Button Click
+function scrollToChapters() {
+    gsap.to('.glowing-btn', { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1 });
+    gsap.fromTo('.chapter-list', 
+        { y: 100, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power2.out" } // Staggered reveal
+    );
+    gsap.to(window, { scrollTo: "#chapters-section", duration: 1, ease: "power2.inOut" });
+}
+
+// Smooth ScrollTrigger for Chapters (GSAP)
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.chapter-link').forEach((link, i) => {
+    gsap.from(link, {
+        scrollTrigger: link,
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out"
+    });
+});
+
+// डबल टॅप बॅक (चॅप्टर्ससाठी)
 let clickCount = 0;
 let clickTimer = null;
 document.addEventListener('click', (e) => {
@@ -38,13 +65,14 @@ document.addEventListener('click', (e) => {
             }, 300);
         } else {
             clearTimeout(clickTimer);
-            window.location.href = '../index.html';
+            gsap.to(e.target, { scale: 0.95, duration: 0.1, yoyo: true, repeat: 1 }); // Quick feedback
+            setTimeout(() => { window.location.href = '../index.html'; }, 200);
             clickCount = 0;
         }
     }
 }, false);
 
-// टच डबल टॅपसाठी (मोबाइल)
+// टच डबल टॅपसाठी
 document.addEventListener('touchend', (e) => {
     if (window.location.pathname.includes('chapter')) {
         clickCount++;
@@ -54,70 +82,8 @@ document.addEventListener('touchend', (e) => {
             }, 300);
         } else {
             clearTimeout(clickTimer);
-            window.location.href = '../index.html';
+            setTimeout(() => { window.location.href = '../index.html'; }, 200);
             clickCount = 0;
         }
     }
 }, false);
-
-// डायरेक्ट टॉगल बटण्स (फिक्स – error handling + immediate update)
-function applySettings() {
-    try {
-        const savedSize = localStorage.getItem('fontSize') || 'medium';
-        const savedTheme = localStorage.getItem('theme') || 'day';
-
-        document.body.className = `font-size-${savedSize} ${savedTheme === 'night' ? 'night' : ''}`;
-        
-        // Active बटण हायलाइट
-        ['small', 'medium', 'large'].forEach(size => {
-            const btn = document.getElementById(`font-${size}`);
-            if (btn) btn.classList.toggle('active', size === savedSize);
-        });
-        
-        const themeBtn = document.getElementById('theme-toggle');
-        if (themeBtn) themeBtn.textContent = savedTheme === 'night' ? '☀️' : '🌙';
-    } catch (err) {
-        console.log('Settings load error:', err); // Debug साठी
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    applySettings();
-
-    // फॉन्ट साइज टॉगल (फिक्स – immediate class change)
-    ['small', 'medium', 'large'].forEach(size => {
-        const btn = document.getElementById(`font-${size}`);
-        if (btn) {
-            btn.addEventListener('click', () => {
-                try {
-                    // पुराना class काढा
-                    document.body.className = document.body.className.replace(/font-size-\w+/, '');
-                    // नवीन अॅड करा
-                    document.body.className += ` font-size-${size}`;
-                    localStorage.setItem('fontSize', size);
-                    
-                    // Active हायलाइट
-                    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                } catch (err) {
-                    console.log('Font size error:', err);
-                }
-            });
-        }
-    });
-
-    // डे/नाइट टॉगल (फिक्स – immediate toggle)
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            try {
-                document.body.classList.toggle('night');
-                const isNight = document.body.classList.contains('night');
-                themeToggle.textContent = isNight ? '☀️' : '🌙';
-                localStorage.setItem('theme', isNight ? 'night' : 'day');
-            } catch (err) {
-                console.log('Theme toggle error:', err);
-            }
-        });
-    }
-});
