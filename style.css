@@ -115,15 +115,15 @@ body {
 .vachan-preview {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease, opacity 0.5s ease;
+    transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.5s ease; /* smooth transition */
     background: rgba(255, 255, 255, 0.05);
     padding: 0 20px;
-    border-radius: 0 0 10px 10px;
     opacity: 0;
+    border-radius: 0 0 10px 10px;
 }
 
 .vachan-preview.expanded {
-    max-height: 300px; /* अॅडजस्ट करा */
+    max-height: 500px; /* जास्त वचनांसाठी वाढवले */
     padding: 15px 20px;
     opacity: 1;
 }
@@ -200,4 +200,5 @@ body {
     .title { font-size: 2.5em; }
     .container { padding: 10px; }
     .chapter-card { animation-delay: 0.1s; }
+    .vachan-preview.expanded { max-height: 400px; } /* मोबाइलसाठी कमी */
 }
