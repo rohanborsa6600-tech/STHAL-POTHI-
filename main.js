@@ -1,29 +1,28 @@
-// Layout Toggle
-document.addEventListener('DOMContentLoaded', () => {
-    const listToggle = document.getElementById('list-toggle');
-    const gridToggle = document.getElementById('grid-toggle');
-    const contentList = document.getElementById('content-list');
+// ---------- Particles.js Global Initialization ----------
+particlesJS('particles-js', {
+    particles: {
+        number:{ value:70, density:{ enable:true, value_area:900 } },
+        color:{ value:['#ffd700','#ffffff'] },
+        shape:{ type:'circle' },
+        opacity:{ value:0.5, random:true },
+        size:{ value:3, random:true },
+        move:{ enable:true, speed:1.5, direction:'none', out_mode:'out' }
+    },
+    interactivity:{ events:{ onhover:{ enable:true, mode:'repulse' } } },
+    retina_detect:true
+});
 
-    // डिफॉल्ट लिस्ट
-    listToggle.addEventListener('click', () => {
-        contentList.classList.remove('grid');
-        listToggle.classList.add('active');
-        gridToggle.classList.remove('active');
-    });
+// ---------- GSAP Scroll Reveal for Lapika/Vachan/Tika ----------
+document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll('.lapika, .vachan, .tika');
 
-    // वैविध्यपूर्ण संग्रह (Grid)
-    gridToggle.addEventListener('click', () => {
-        contentList.classList.add('grid');
-        gridToggle.classList.add('active');
-        listToggle.classList.remove('active');
-    });
-
-    // Chapter Links
-    document.querySelectorAll('.read-more').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const chapterNum = link.closest('.item-card').dataset.chapter;
-            window.location.href = `chapters/chapter${chapterNum}.html`;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add('visible');
+            }
         });
-    });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => observer.observe(card));
 });
