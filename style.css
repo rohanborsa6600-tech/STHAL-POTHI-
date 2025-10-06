@@ -61,6 +61,37 @@ body.night .subtitle {
     color: #ccc;
 }
 
+.toggle-panel {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.toggle-btn {
+    background: #4a7c59;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-size: 0.9em;
+}
+
+.toggle-btn:hover, .toggle-btn.active {
+    background: #2c5530;
+}
+
+body.night .toggle-btn {
+    background: #6b8e23;
+}
+
+body.night .toggle-btn:hover, body.night .toggle-btn.active {
+    background: #4a7c59;
+}
+
 .chapter-list {
     display: flex;
     flex-direction: column;
@@ -92,69 +123,6 @@ body.night .chapter-link {
 
 body.night .chapter-link:hover {
     background: #4a4a4a;
-}
-
-/* सेटिंग्स पॅनल – बुक-लाइक साइडबार */
-.settings-panel {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-}
-
-.settings-btn {
-    background: #4a7c59;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.settings-content {
-    display: none;
-    background: #f5f5dc;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    margin-top: 5px;
-}
-
-body.night .settings-content {
-    background: #3a3a3a;
-    color: #e8e8e8;
-}
-
-.settings-content label {
-    display: block;
-    margin: 10px 0;
-}
-
-.settings-content select, .settings-content button {
-    margin-left: 10px;
-    padding: 5px;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-}
-
-.theme-btn {
-    background: #4a7c59;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.settings-close {
-    background: #2c5530;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
 }
 
 /* फॉन्ट साइज क्लासेस */
@@ -192,7 +160,8 @@ body.font-color-brown { color: #8b4513; }
 }
 
 .tika {
-    color: #333;
+    font-weight: bold; /* बोल्ड केले */
+    color: #6b8e23; /* नवीन कलर – डार्क ग्रीन */
     margin: 15px 0;
     text-align: justify;
     font-size: 1em;
@@ -200,11 +169,11 @@ body.font-color-brown { color: #8b4513; }
 
 body.night .vachan { color: #4a7c59; }
 body.night .lapika { color: #6b8e23; }
-body.night .tika { color: #e8e8e8; }
+body.night .tika { color: #90ee90; } /* नाइटसाठी हलका ग्रीन */
 
 /* मोबाइलसाठी */
 @media (max-width: 600px) {
     .container { margin: 20px auto; padding: 10px; font-size: 1em; }
     .title { font-size: 2em; }
-    .settings-panel { top: 10px; right: 10px; }
+    .toggle-panel { flex-direction: column; gap: 5px; }
 }
