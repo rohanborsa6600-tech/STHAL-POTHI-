@@ -1,198 +1,121 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;700&display=swap');
-
-body {
+* {
     margin: 0;
     padding: 0;
-    font-family: 'Noto Serif Devanagari', serif;
-    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #e8f5e8, #d4e4d4); /* नैसर्गिक हिरवी थीम */
+    color: #2c5530;
     line-height: 1.6;
 }
 
-.cinematic-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at top, #e9f7ef, #b6d7a8, #4a7c59); /* Motion Blurred हिरवट-जंगल gradient */
-    filter: blur(1px); /* Blurred effect */
-    z-index: -2;
-    animation: subtleShift 20s ease-in-out infinite; /* हलकी हालचाल */
-}
-
-@keyframes subtleShift {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.9; }
-}
-
-#particles-js {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
 .container {
-    max-width: 700px;
+    max-width: 800px;
     margin: 0 auto;
-    padding: 60px 20px 20px;
+    padding: 20px;
+}
+
+.header {
     text-align: center;
-    position: relative;
-    z-index: 1;
-    background: rgba(255, 255, 255, 0.1); /* Transparent overlay */
-    backdrop-filter: blur(10px); /* Glass effect */
-    border-radius: 0 0 20px 20px;
+    margin-bottom: 30px;
 }
 
 .title {
-    font-size: 3em;
+    font-size: 2.5em;
+    color: #1a3c1a;
     margin-bottom: 10px;
-    color: #2c5530;
-    text-shadow: 0 0 20px rgba(74, 124, 89, 0.6); /* Cinematic glow */
-    opacity: 0;
 }
 
 .subtitle {
-    font-size: 1.2em;
+    font-size: 1.1em;
     color: #4a7c59;
-    margin-bottom: 40px;
-    opacity: 0;
+    margin-bottom: 5px;
 }
 
-.story-open-btn {
-    margin: 30px 0;
+.location {
+    font-size: 0.9em;
+    color: #666;
+    font-style: italic;
 }
 
-.glowing-btn {
-    background: linear-gradient(45deg, #4a7c59, #b6d7a8);
+.layout-toggle {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.toggle-btn {
+    background: #4a7c59;
     color: white;
     border: none;
-    padding: 15px 30px;
-    border-radius: 50px;
-    font-size: 1.2em;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(74, 124, 89, 0.5); /* Glowing */
-    transition: all 0.3s ease;
-    animation: pulse 2s infinite;
+    transition: background 0.3s ease;
 }
 
-@keyframes pulse {
-    0% { box-shadow: 0 0 20px rgba(74, 124, 89, 0.5); }
-    50% { box-shadow: 0 0 30px rgba(74, 124, 89, 0.8); }
-    100% { box-shadow: 0 0 20px rgba(74, 124, 89, 0.5); }
+.toggle-btn.active {
+    background: #2c5530;
 }
 
-.glowing-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 40px rgba(74, 124, 89, 1);
+.toggle-btn:hover {
+    background: #3a5c4a;
 }
 
-.chapter-list {
+.content-list {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* डिफॉल्ट लिस्ट */
     gap: 15px;
-    opacity: 0;
 }
 
-.chapter-link {
-    display: block;
-    padding: 15px 20px;
-    background: rgba(255, 255, 255, 0.2); /* Transparent glass card */
-    text-decoration: none;
-    color: #333;
-    border-radius: 10px;
-    backdrop-filter: blur(10px); /* Glass effect */
-    border: 1px solid rgba(74, 124, 89, 0.3);
-    font-size: 1.1em;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+.content-list.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* वैविध्यपूर्ण संग्रह – grid */
+    gap: 20px;
 }
 
-.chapter-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent); /* Shimmer */
-    transition: left 0.5s;
-}
-
-.chapter-link:hover::before {
-    left: 100%;
-}
-
-.chapter-link:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(74, 124, 89, 0.4); /* Motion shadow */
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.sun-ray-hover::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.5s ease;
-    pointer-events: none;
-}
-
-.sun-ray-hover:hover::after {
-    width: 200px;
-    height: 200px; /* हलका सूर्यकिरण animation */
-    animation: rayGlow 0.5s ease-out;
-}
-
-@keyframes rayGlow {
-    0% { opacity: 1; transform: translate(-50%, -50%) scale(0); }
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
-}
-
-/* चॅप्टर कंटेंट स्टाइल्स */
-.chapter-content {
-    margin: 20px 0;
+.item-card {
+    background: white;
     padding: 20px;
-    line-height: 1.8;
-    text-indent: 2em;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-left: 4px solid #4a7c59;
+    transition: transform 0.3s ease;
 }
 
-.vachan {
-    font-size: 1.4em;
-    font-weight: bold;
-    color: #2c5530;
-    margin: 25px 0 10px;
-    border-bottom: 2px solid #4a7c59;
-    padding-bottom: 5px;
+.item-card:hover {
+    transform: translateY(-2px);
 }
 
-.lapika {
-    font-style: italic;
-    color: #4a7c59;
-    margin: 10px 0;
-    font-size: 1.1em;
-    padding-left: 10px;
-    border-left: 3px dotted #4a7c59;
+.item-card h3 {
+    color: #1a3c1a;
+    margin-bottom: 10px;
 }
 
-.tika {
-    font-weight: bold;
-    color: #6b8e23;
-    margin: 15px 0;
-    text-align: justify;
-    font-size: 1em;
+.item-card p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.read-more {
+    display: inline-block;
+    background: #4a7c59;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.read-more:hover {
+    background: #2c5530;
 }
 
 /* मोबाइलसाठी */
 @media (max-width: 600px) {
-    .container { margin: 20px auto; padding: 10px; }
-    .title { font-size: 2em; }
+    .content-list.grid {
+        grid-template-columns: 1fr; /* मोबाइलवर लिस्ट सारखे */
+    }
 }
