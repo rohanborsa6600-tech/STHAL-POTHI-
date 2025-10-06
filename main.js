@@ -1,18 +1,18 @@
-// Particles.js इनिशियलायझेशन (ट्रॅडिशनल – सॉफ्ट पान कण)
+// Particles.js इनिशियलायझेशन (Vibrant – अधिक कण)
 particlesJS('particles-js', {
     particles: {
-        number: { value: 30, density: { enable: true, value_area: 800 } },
-        color: { value: '#d4e4d4' }, // लाइट शेड्स
+        number: { value: 50, density: { enable: true, value_area: 800 } },
+        color: { value: ['#4a7c59', '#6b8e23', '#2c5530'] }, // Vibrant मल्टिपल कलर्स
         shape: { type: 'circle' },
-        opacity: { value: 0.4, random: true },
-        size: { value: 2, random: true },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
         line_linked: { enable: false },
-        move: { enable: true, speed: 0.5, direction: 'bottom', random: true }
+        move: { enable: true, speed: 1, direction: 'bottom', random: true }
     },
     interactivity: {
         detect_on: 'canvas',
         events: { onhover: { enable: true, mode: 'repulse' } },
-        modes: { repulse: { distance: 80, duration: 0.4 } }
+        modes: { repulse: { distance: 100, duration: 0.4 } }
     },
     retina_detect: true
 });
@@ -30,7 +30,7 @@ document.querySelectorAll('.chapter-link').forEach(link => {
 let clickCount = 0;
 let clickTimer = null;
 document.addEventListener('click', (e) => {
-    if (window.location.pathname.includes('chapter')) { // फक्त चॅप्टर्समध्ये
+    if (window.location.pathname.includes('chapter')) {
         clickCount++;
         if (clickCount === 1) {
             clickTimer = setTimeout(() => {
@@ -38,7 +38,7 @@ document.addEventListener('click', (e) => {
             }, 300);
         } else {
             clearTimeout(clickTimer);
-            window.location.href = '../index.html'; // बॅक टू इंडेक्स
+            window.location.href = '../index.html';
             clickCount = 0;
         }
     }
@@ -60,14 +60,15 @@ document.addEventListener('touchend', (e) => {
     }
 }, false);
 
-// डायरेक्ट टॉगल बटण्स (इंडेक्सवर)
+// डायरेक्ट टॉगल बटण्स (मजेदार – active हायलाइट)
 function applySettings() {
     const savedSize = localStorage.getItem('fontSize') || 'medium';
     const savedTheme = localStorage.getItem('theme') || 'day';
 
     document.body.className = `font-size-${savedSize} ${savedTheme === 'night' ? 'night' : ''}`;
-    document.querySelector(`#font-${savedSize}`).classList.add('active');
-    document.getElementById('theme-toggle').textContent = savedTheme === 'night' ? '☀️ डे' : '🌙 नाइट';
+    document.querySelector(`#font-${savedSize}`)?.classList.add('active');
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) themeBtn.textContent = savedTheme === 'night' ? '☀️' : '🌙';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -92,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('night');
             const isNight = document.body.classList.contains('night');
-            themeToggle.textContent = isNight ? '☀️ डे' : '🌙 नाइट';
+            themeToggle.textContent = isNight ? '☀️' : '🌙';
             localStorage.setItem('theme', isNight ? 'night' : 'day');
         });
     }
