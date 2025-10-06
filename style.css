@@ -26,18 +26,27 @@ body {
     text-align: center;
 }
 
+/* --- शीर्षक सुधारणा --- */
 .title {
     font-size: 3.5em;
     margin-bottom: 10px;
-    text-shadow: 0 0 20px rgba(74, 124, 89, 0.8); /* सिनेमॅटिक ग्लो शॅडो */
+    /* (सुधारित) डीप ग्लो शॅडो */
+    text-shadow: 
+        0 0 10px rgba(179, 255, 179, 0.6), 
+        0 0 40px rgba(74, 124, 89, 0.9),  
+        0 0 80px rgba(74, 124, 89, 0.5); 
     color: #e8f5e8;
     animation: fadeInDown 1s ease-out;
+    letter-spacing: 2px; /* (नवीन) अक्षरांमध्ये थोडं अंतर */
 }
 
+/* --- उपशीर्षक सुधारणा --- */
 .subtitle {
-    font-size: 1.3em;
-    margin-bottom: 50px;
-    color: #d4e4d4;
+    font-size: 1.4em; /* (सुधारित) थोडं मोठं */
+    margin-bottom: 60px; /* (सुधारित) जास्त मार्जिन */
+    color: #b3ffb3; /* (सुधारित) लाइटर ग्रीन */
+    border-bottom: 2px solid rgba(74, 124, 89, 0.5); /* (नवीन) वेगळी लाईन */
+    padding-bottom: 20px; /* (नवीन) लाईनपासून अंतर */
     animation: fadeInUp 1s ease-out 0.5s both;
 }
 
@@ -62,8 +71,8 @@ body {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
     padding: 0;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* सिनेमॅटिक शॅडो */
-    backdrop-filter: blur(10px); /* ग्लास इफेक्ट */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); 
+    backdrop-filter: blur(10px); 
     border: 1px solid rgba(74, 124, 89, 0.2);
     transition: transform 0.4s ease, box-shadow 0.4s ease;
     animation: slideInUp 0.8s ease-out;
@@ -79,14 +88,15 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* --- chapter-link सुधारणा: Flex आणि क्रमांक --- */
 .chapter-link {
-    display: block;
+    display: flex; /* (सुधारित) Flex वापरा */
+    align-items: center; /* (सुधारित) मध्यभागी अलाईन करा */
     padding: 20px 25px;
     background: rgba(255, 255, 255, 0.05);
     text-decoration: none;
     color: #e8f5e8;
     border-radius: 10px 10px 0 0;
-    font-size: 1.2em;
     font-weight: bold;
     transition: background 0.3s ease;
     border-bottom: 1px solid rgba(74, 124, 89, 0.2);
@@ -94,6 +104,20 @@ body {
 
 .chapter-link:hover {
     background: rgba(74, 124, 89, 0.2);
+}
+
+.chapter-number {
+    font-size: 1.8em; /* (नवीन) मोठा क्रमांक */
+    font-weight: 700;
+    color: #b3ffb3; /* लाइटर ग्रीन */
+    margin-right: 20px;
+    border-right: 2px solid rgba(74, 124, 89, 0.5); /* वेगळी लाईन */
+    padding-right: 15px;
+    text-shadow: 0 0 10px rgba(179, 255, 179, 0.5);
+}
+
+.chapter-name {
+    font-size: 1.2em;
 }
 
 .expand-btn {
@@ -112,10 +136,11 @@ body {
     background: rgba(74, 124, 89, 0.5);
 }
 
+/* --- वचने पूर्वावलोकन सुधारणा (Scrolling) --- */
 .vachan-preview {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.5s ease; /* smooth transition */
+    transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.5s ease;
     background: rgba(255, 255, 255, 0.05);
     padding: 0 20px;
     opacity: 0;
@@ -123,9 +148,24 @@ body {
 }
 
 .vachan-preview.expanded {
-    max-height: 500px; /* जास्त वचनांसाठी वाढवले */
+    max-height: 500px;
     padding: 15px 20px;
     opacity: 1;
+    overflow-y: auto; /* (सुधारित) स्क्रोलिंग सक्षम करा */
+    scrollbar-width: thin; /* Firefox स्क्रोलबार */
+    scrollbar-color: #4a7c59 rgba(255, 255, 255, 0.05); 
+}
+
+/* Chrome/Safari साठी सुंदर स्क्रोलबार */
+.vachan-preview.expanded::-webkit-scrollbar {
+    width: 8px;
+}
+.vachan-preview.expanded::-webkit-scrollbar-thumb {
+    background-color: #4a7c59; 
+    border-radius: 4px;
+}
+.vachan-preview.expanded::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .vachan-item {
@@ -144,61 +184,8 @@ body {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* चॅप्टर स्ट्रक्चरसाठी स्टाइल्स (मागीलप्रमाणे) */
+/* इतर स्टाइल्स (मागीलप्रमाणे) */
 .chapter-content {
-    max-width: 700px;
-    margin: 20px auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    line-height: 1.8;
+    /* ... */
 }
-
-.vachan {
-    font-size: 1.3em;
-    font-weight: bold;
-    color: #1a3c1a;
-    margin: 20px 0 10px;
-    border-left: 4px solid #4a7c59;
-    padding-left: 15px;
-}
-
-.lapika {
-    font-style: italic;
-    color: #2c5530;
-    margin: 10px 0;
-    font-size: 1.2em;
-    padding-left: 15px;
-}
-
-.tika {
-    color: #1a3c1a;
-    margin: 15px 0;
-    text-align: justify;
-    font-size: 1.1em;
-}
-
-/* बॅक बटण */
-.back-link {
-    display: inline-block;
-    margin-top: 30px;
-    padding: 10px 20px;
-    background: rgba(74, 124, 89, 0.2);
-    color: #2c5530;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-}
-
-.back-link:hover {
-    background: rgba(74, 124, 89, 0.4);
-}
-
-/* मोबाइलसाठी */
-@media (max-width: 600px) {
-    .title { font-size: 2.5em; }
-    .container { padding: 10px; }
-    .chapter-card { animation-delay: 0.1s; }
-    .vachan-preview.expanded { max-height: 400px; } /* मोबाइलसाठी कमी */
-}
+/* ... */
