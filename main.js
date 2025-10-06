@@ -17,7 +17,7 @@ particlesJS('particles-js', {
     retina_detect: true
 });
 
-// चॅप्टर लिंक्सवर क्लिक
+// चॅप्टर लिंक्सवर क्लिक (जैसे थे)
 document.querySelectorAll('.chapter-link').forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -26,18 +26,16 @@ document.querySelectorAll('.chapter-link').forEach(link => {
     });
 });
 
-// प्रत्येक चॅप्टरसाठी वचने लोड करा
+// प्रत्येक चॅप्टरसाठी वचने लोड करा (Promise return करण्यासाठी सुधारित)
 async function loadVachanPreview(chapterNum) {
     const preview = document.getElementById(`preview-${chapterNum}`);
-    if (!preview) return;
-
-    preview.innerHTML = '<p style="color: #d4e4d4;">लोड होत आहे...</p>';
+    if (!preview) return Promise.resolve(); 
 
     try {
         const response = await fetch(`chapters/chapter${chapterNum}.html`);
         if (!response.ok) {
             preview.innerHTML = '<p style="color: #d4e4d4;">वचने सापडली नाहीत.</p>';
-            return;
+            return Promise.resolve();
         }
         const html = await response.text();
         const parser = new DOMParser();
@@ -55,29 +53,50 @@ async function loadVachanPreview(chapterNum) {
             }
         });
 
-        if (vachanHtml === '') {
-            preview.innerHTML = '<p style="color: #d4e4d4;">या चॅप्टरमध्ये वचने नाहीत.</p>';
-        } else {
-            // फिक्स: setTimeout ने force show (transition पूर्ण होण्यासाठी)
-            setTimeout(() => {
+        // फिक्स: setTimeout ने force show
+        setTimeout(() => {
+            if (vachanHtml === '') {
+                preview.innerHTML = '<p style="color: #d4e4d4;">या चॅप्टरमध्ये वचने नाहीत.</p>';
+            } else {
                 preview.innerHTML = vachanHtml;
-            }, 100);
-        }
+            }
+        }, 100);
+
+        return Promise.resolve(); // यश मिळाल्यावर Promise परत करा
     } catch (err) {
         preview.innerHTML = '<p style="color: #d4e4d4;">त्रुटी: वचने लोड होऊ शकली नाहीत.</p>';
+        return Promise.resolve(); // त्रुटी असूनही Promise परत करा
     }
 }
 
-// एक्सपँड/कोलॅप्स सेटअप
+// एक्सपँड/कोलॅप्स सेटअप (लोडिंग टेक्स्टसाठी सुधारित)
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.expand-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const chapterNum = btn.dataset.chapter;
             const preview = document.getElementById(`preview-${chapterNum}`);
+            const isExpanded = preview.classList.contains('expanded');
+            
+            // 1. क्लास टॉगल करा
             preview.classList.toggle('expanded');
-            btn.textContent = preview.classList.contains('expanded') ? '▲ वचने लपवा' : '▼ वचने पहा';
-            if (preview.classList.contains('expanded') && preview.innerHTML.includes('लोड होत आहे')) {
-                loadVachanPreview(chapterNum);
+            
+            // 2. बटणाचा मजकूर त्वरित अपडेट करा
+            if (isExpanded) {
+                // जर ते बंद होत असेल
+                btn.textContent = '▼ वचने पहा';
+            } else {
+                // जर ते उघडत असेल
+                if (preview.innerHTML.includes('लोड होत आहे')) {
+                    // लोडिंग स्थिती दर्शवा
+                    btn.textContent = '...वचने लोड होत आहेत...';
+                    // वचने लोड करा आणि बटण अपडेट करा
+                    loadVachanPreview(chapterNum).then(() => {
+                        btn.textContent = '▲ वचने लपवा';
+                    });
+                } else {
+                    // लोड केलेले असल्यास, फक्त टॉगल मजकूर
+                    btn.textContent = '▲ वचने लपवा';
+                }
             }
         });
     });
