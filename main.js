@@ -60,41 +60,64 @@ document.addEventListener('touchend', (e) => {
     }
 }, false);
 
-// डायरेक्ट टॉगल बटण्स (मजेदार – active हायलाइट)
+// डायरेक्ट टॉगल बटण्स (फिक्स – error handling + immediate update)
 function applySettings() {
-    const savedSize = localStorage.getItem('fontSize') || 'medium';
-    const savedTheme = localStorage.getItem('theme') || 'day';
+    try {
+        const savedSize = localStorage.getItem('fontSize') || 'medium';
+        const savedTheme = localStorage.getItem('theme') || 'day';
 
-    document.body.className = `font-size-${savedSize} ${savedTheme === 'night' ? 'night' : ''}`;
-    document.querySelector(`#font-${savedSize}`)?.classList.add('active');
-    const themeBtn = document.getElementById('theme-toggle');
-    if (themeBtn) themeBtn.textContent = savedTheme === 'night' ? '☀️' : '🌙';
+        document.body.className = `font-size-${savedSize} ${savedTheme === 'night' ? 'night' : ''}`;
+        
+        // Active बटण हायलाइट
+        ['small', 'medium', 'large'].forEach(size => {
+            const btn = document.getElementById(`font-${size}`);
+            if (btn) btn.classList.toggle('active', size === savedSize);
+        });
+        
+        const themeBtn = document.getElementById('theme-toggle');
+        if (themeBtn) themeBtn.textContent = savedTheme === 'night' ? '☀️' : '🌙';
+    } catch (err) {
+        console.log('Settings load error:', err); // Debug साठी
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     applySettings();
 
-    // फॉन्ट साइज टॉगल
+    // फॉन्ट साइज टॉगल (फिक्स – immediate class change)
     ['small', 'medium', 'large'].forEach(size => {
         const btn = document.getElementById(`font-${size}`);
         if (btn) {
             btn.addEventListener('click', () => {
-                document.body.className = document.body.className.replace(/font-size-\w+/, `font-size-${size}`);
-                localStorage.setItem('fontSize', size);
-                document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                try {
+                    // पुराना class काढा
+                    document.body.className = document.body.className.replace(/font-size-\w+/, '');
+                    // नवीन अॅड करा
+                    document.body.className += ` font-size-${size}`;
+                    localStorage.setItem('fontSize', size);
+                    
+                    // Active हायलाइट
+                    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                } catch (err) {
+                    console.log('Font size error:', err);
+                }
             });
         }
     });
 
-    // डे/नाइट टॉगल
+    // डे/नाइट टॉगल (फिक्स – immediate toggle)
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('night');
-            const isNight = document.body.classList.contains('night');
-            themeToggle.textContent = isNight ? '☀️' : '🌙';
-            localStorage.setItem('theme', isNight ? 'night' : 'day');
+            try {
+                document.body.classList.toggle('night');
+                const isNight = document.body.classList.contains('night');
+                themeToggle.textContent = isNight ? '☀️' : '🌙';
+                localStorage.setItem('theme', isNight ? 'night' : 'day');
+            } catch (err) {
+                console.log('Theme toggle error:', err);
+            }
         });
     }
 });
