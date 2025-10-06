@@ -1,109 +1,181 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;700&display=swap');
 
-* { margin:0; padding:0; box-sizing:border-box; }
-
 body {
+    margin: 0;
+    padding: 0;
     font-family: 'Noto Serif Devanagari', serif;
-    background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
-    color: #fff;
     overflow-x: hidden;
-    min-height: 100vh;
-    line-height: 1.8;
+    line-height: 1.6;
 }
 
-/* ---------- Particles Background ---------- */
-#particles-js {
+.animated-gradient-overlay {
     position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    background: radial-gradient(circle at top, #e9f7ef, #b6d7a8, #4a7c59); /* Feature 6 */
+    filter: blur(0.5px);
     z-index: -2;
-}
-
-/* Cinematic Motion Blur Gradient */
-.cinematic-bg {
-    position: fixed;
-    top:0; left:0;
-    width:100%;
-    height:100%;
-    background: linear-gradient(45deg, #0f2027, #203a43, #2c5364);
-    filter: blur(60px);
-    opacity:0.5;
-    z-index:-1;
-    animation: gradientMove 20s ease infinite;
+    animation: gradientMove 15s ease-in-out infinite; /* Moving gradient */
 }
 
 @keyframes gradientMove {
-    0% { background-position:0% 50%; }
-    50% { background-position:100% 50%; }
-    100% { background-position:0% 50%; }
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-20px); }
 }
 
-/* ---------- Chapter Page Container ---------- */
+#particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
 .container {
-    padding: 40px;
-    max-width: 900px;
-    margin: auto;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 60px 20px 20px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 0 0 20px 20px;
 }
 
-/* Titles */
 .title {
-    font-size: 2.5rem;
-    text-align: center;
-    color: #ffd700;
-    text-shadow: 0 0 15px #ffd700;
-    margin-bottom: 20px;
+    font-size: 3em;
+    margin-bottom: 10px;
+    color: #2c5530;
+    text-shadow: 0 0 20px rgba(74, 124, 89, 0.6);
+    opacity: 0;
 }
 
-/* ---------- Lapika / Vachan / Tika ---------- */
-.lapika, .vachan, .tika {
-    background: rgba(255,255,255,0.08);
-    border-left: 4px solid #ffd700;
-    border-radius: 10px;
+.subtitle {
+    font-size: 1.2em;
+    color: #4a7c59;
+    margin-bottom: 40px;
+    opacity: 0;
+}
+
+.chapter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    opacity: 0;
+}
+
+.chapter-link {
+    display: block;
     padding: 15px 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 15px rgba(255,215,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
-
-/* Hover Glow Effect */
-.lapika:hover, .vachan:hover, .tika:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 25px rgba(255,215,0,0.3);
-    background: rgba(255,255,255,0.12);
-}
-
-/* Vachan Specific Style */
-.vachan {
-    font-weight: bold;
-    text-align: center;
-    color: #fff4cc;
-    font-size: 1.2rem;
-}
-
-/* Back Link Button */
-.back-link {
-    display: inline-block;
-    margin: 40px auto;
-    padding: 12px 28px;
-    font-weight: bold;
-    color: #000;
-    background: linear-gradient(45deg,#ffd700,#ffcc33);
-    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2); /* Glass card (Feature 3) */
     text-decoration: none;
+    color: #333;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(74, 124, 89, 0.3);
+    font-size: 1.1em;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-.back-link:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px #ffd700;
+.chapter-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent); /* Shimmer */
+    transition: left 0.5s;
 }
 
-/* Chapter Page Animation (Scroll Reveal) */
-.visible { opacity:1; transform: translateY(0); transition: all 0.6s ease-out; }
-.lapika, .vachan, .tika { opacity:0; transform: translateY(20px); }
+.chapter-link:hover::before {
+    left: 100%; /* Feature 1: Shimmer with particles */
+}
 
-/* Responsive */
-@media(max-width:768px){
-    .container{ padding:20px; }
-    .title{ font-size:2rem; }
+.chapter-link:hover {
+    transform: translateY(-3px) scale(1.02); /* Feature 4: Hover scale */
+    box-shadow: 0 8px 25px rgba(74, 124, 89, 0.4); /* Motion shadow (Feature 2) */
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.sun-ray-hover::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 70%); /* Feature 2: Sunbeam */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
+    pointer-events: none;
+}
+
+.sun-ray-hover:hover::after {
+    width: 200px;
+    height: 200px;
+    animation: rayGlow 0.5s ease-out;
+}
+
+@keyframes rayGlow {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(0); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
+
+.chapter-number {
+    font-weight: bold;
+    color: #b6d7a8; /* Golden base (Feature 7) */
+    transition: color 0.3s ease;
+}
+
+.chapter-link:hover .chapter-number {
+    color: #ffd700; /* Golden glow on hover */
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* चॅप्टर कंटेंट स्टाइल्स (untouched) */
+.chapter-content {
+    margin: 20px 0;
+    padding: 20px;
+    line-height: 1.8;
+    text-indent: 2em;
+}
+
+.vachan {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #2c5530;
+    margin: 25px 0 10px;
+    border-bottom: 2px solid #4a7c59;
+    padding-bottom: 5px;
+}
+
+.lapika {
+    font-style: italic;
+    color: #4a7c59;
+    margin: 10px 0;
+    font-size: 1.1em;
+    padding-left: 10px;
+    border-left: 3px dotted #4a7c59;
+}
+
+.tika {
+    font-weight: bold;
+    color: #6b8e23;
+    margin: 15px 0;
+    text-align: justify;
+    font-size: 1em;
+}
+
+/* मोबाइलसाठी */
+@media (max-width: 600px) {
+    .container { padding: 40px 10px 10px; }
+    .title { font-size: 2em; }
 }
