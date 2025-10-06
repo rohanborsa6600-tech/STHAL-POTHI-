@@ -5,39 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>स्थळ पोथी - मुख्य पृष्ठ</title>
     <link rel="stylesheet" href="style.css">
-    <script src="particles.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script> <!-- GSAP CDN -->
 </head>
 <body>
-    <div id="particles-js"></div>
-    <div class="cinematic-bg"></div> <!-- Motion Blurred Gradient -->
     <div class="container">
-        <header>
-            <h1 class="title cinematic-fade">स्थळ पोथी 🌿</h1>
+        <header class="header">
+            <h1 class="title">स्थळ पोथी</h1>
             <p class="subtitle">नैसर्गिक स्थळांच्या कथा आणि शिकवण</p>
+            <div class="location">|| श्री देवदत्त आश्रम, जाधववाडी ||</div>
         </header>
 
-        <!-- Glowing "कथा उघडा" Button -->
-        <div class="story-open-btn">
-            <button class="glowing-btn" onclick="scrollToChapters()">कथा उघडा ✨</button>
+        <div class="layout-toggle">
+            <button id="list-toggle" class="toggle-btn active">डीफॉल्ट लिस्ट</button>
+            <button id="grid-toggle" class="toggle-btn">वैविध्यपूर्ण संग्रह (Diverse Collection)</button>
         </div>
 
-        <nav class="chapter-list" id="chapters-section">
-            <a href="chapters/chapter1.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर १: पुर्वी</a>
-            <a href="chapters/chapter2.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर २: अन्यव्यवृती</a>
-            <a href="chapters/chapter3.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ३: युगधर्म</a>
-            <a href="chapters/chapter4.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ४: क्रियापाक</a>
-            <a href="chapters/chapter5.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ५: विद्यामार्ग</a>
-            <a href="chapters/chapter6.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ६: संहार</a>
-            <a href="chapters/chapter7.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ७: संसरण</a>
-            <a href="chapters/chapter8.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ८: उद्धरण</a>
-            <a href="chapters/chapter9.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ९: महावाक्य</a>
-            <a href="chapters/chapter10.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर १०: निर्वचन</a>
-            <a href="chapters/chapter11.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर ११: आचार</a>
-            <a href="chapters/chapter12.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर १२: विचार</a>
-            <a href="chapters/chapter13.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर १३: आचार मालिका</a>
-            <a href="chapters/chapter14.html" class="chapter-link glass-card sun-ray-hover">चॅप्टर १४: विचार मालिका</a>
-        </nav>
+        <div class="content-list" id="content-list">
+            <!-- Chapters List/Grid Items -->
+            <div class="item-card" data-chapter="1">
+                <h3>चॅप्टर १: पुर्वी</h3>
+                <p>प्राचीन काळातील निसर्ग शिकवणी.</p>
+                <a href="chapters/chapter1.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="2">
+                <h3>चॅप्टर २: अन्यव्यवृती</h3>
+                <p>नव्या दृष्टिकोनाची गोष्ट.</p>
+                <a href="chapters/chapter2.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="3">
+                <h3>चॅप्टर ३: युगधर्म</h3>
+                <p>युगानुसार धर्माची व्याख्या.</p>
+                <a href="chapters/chapter3.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="4">
+                <h3>चॅप्टर ४: क्रियापाक</h3>
+                <p>कर्मांचे फळ आणि शिकवण.</p>
+                <a href="chapters/chapter4.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="5">
+                <h3>चॅप्टर ५: विद्यामार्ग</h3>
+                <p>ज्ञानमार्गाची यात्रा.</p>
+                <a href="chapters/chapter5.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="6">
+                <h3>चॅप्टर ६: संहार</h3>
+                <p>सर्वनाश आणि पुनरुज्जीवन.</p>
+                <a href="chapters/chapter6.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="7">
+                <h3>चॅप्टर ७: संसरण</h3>
+                <p>संसार चक्राची गती.</p>
+                <a href="chapters/chapter7.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="8">
+                <h3>चॅप्टर ८: उद्धरण</h3>
+                <p>प्रेरणादायी उद्धरणे.</p>
+                <a href="chapters/chapter8.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="9">
+                <h3>चॅप्टर ९: महावाक्य</h3>
+                <p>महान वाक्यांची शक्ती.</p>
+                <a href="chapters/chapter9.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="10">
+                <h3>चॅप्टर १०: निर्वचन</h3>
+                <p>व्याख्या आणि अर्थ.</p>
+                <a href="chapters/chapter10.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="11">
+                <h3>चॅप्टर ११: आचार</h3>
+                <p>आचारांचे महत्त्व.</p>
+                <a href="chapters/chapter11.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="12">
+                <h3>चॅप्टर १२: विचार</h3>
+                <p>विचारांची धार.</p>
+                <a href="chapters/chapter12.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="13">
+                <h3>चॅप्टर १३: आचार मालिका</h3>
+                <p>आचारांची मालिका.</p>
+                <a href="chapters/chapter13.html" class="read-more">वाचा</a>
+            </div>
+            <div class="item-card" data-chapter="14">
+                <h3>चॅप्टर १४: विचार मालिका</h3>
+                <p>विचारांची मालिका.</p>
+                <a href="chapters/chapter14.html" class="read-more">वाचा</a>
+            </div>
+        </div>
     </div>
     <script src="main.js"></script>
 </body>
